@@ -22,7 +22,7 @@ class Widget extends AbstractController
     }
 
     /**
-     * @Route("/widget/{uuid}", name="widget")
+     * @Route("/widget/{uuid}.js", name="widget")
      * @param string $uuid
      * @return Response
      */
