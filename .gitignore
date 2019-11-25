@@ -1,5 +1,7 @@
+.idea
 
 ###> symfony/framework-bundle ###
+# .env wasn't added intentionally
 /.env.local
 /.env.local.php
 /.env.*.local

@@ -5,13 +5,13 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="App\Repository\ReviewRepository")
  */
-class Review
+class Review implements \JsonSerializable
 {
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
     private $id;
@@ -22,7 +22,7 @@ class Review
     private $hotel_id;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", length=0)
      */
     private $text;
 
@@ -31,68 +31,79 @@ class Review
      */
     private $score;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $date;
 
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getHotelId()
+    public function setId(string $id): self
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    public function getHotelId(): ?int
     {
         return $this->hotel_id;
     }
 
-    /**
-     * @param mixed $hotel_id
-     * @return Review
-     */
-    public function setHotelId($hotel_id)
+    public function setHotelId(int $hotel_id): self
     {
         $this->hotel_id = $hotel_id;
+
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getText()
+    public function getText(): ?string
     {
         return $this->text;
     }
 
-    /**
-     * @param mixed $text
-     * @return Review
-     */
-    public function setText($text)
+    public function setText(string $text): self
     {
         $this->text = $text;
+
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getScore()
+    public function getScore(): ?int
     {
         return $this->score;
     }
 
-    /**
-     * @param mixed $score
-     * @return Review
-     */
-    public function setScore($score)
+    public function setScore(int $score): self
     {
         $this->score = $score;
+
+        return $this;
+    }
+
+    public function jsonSerialize()
+    {
+        return array(
+            'id'       => $this->id,
+            'hotel_id' => $this->hotel_id,
+            'text'     => $this->text,
+            'score'    => $this->score,
+            'date'     => $this->getDate()->format(DATE_ATOM),
+        );
+    }
+
+    public function getDate(): ?\DateTimeInterface
+    {
+        return $this->date;
+    }
+
+    public function setDate(\DateTimeInterface $date): self
+    {
+        $this->date = $date;
+
         return $this;
     }
 }

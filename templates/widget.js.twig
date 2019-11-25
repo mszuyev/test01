@@ -1,0 +1,31 @@
+var showResult = function (result) {
+    alert(result);
+};
+document.addEventListener("DOMContentLoaded", function (event) {
+    var dateFrom, dateTo;
+    dateFrom = new Date();
+    dateFrom.setFullYear(dateFrom.getFullYear() - 1, dateFrom.getMonth(), dateFrom.getDate());
+    dateFrom.setHours(0, 0, 0, 0);
+    dateTo = new Date();
+    dateTo.setHours(23, 59, 59, 999);
+    var
+        uuid = encodeURIComponent({{ uuid }}),
+        from = encodeURIComponent(dateFrom.toISOString()),
+        to = encodeURIComponent(dateTo.toISOString());
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', `/api/average?hotelUUID=${uuid}&from=${from}&to=${to}`);
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            var num = Number.parseFloat(xhr.responseText);
+            if (Number.isFinite(num)) {
+                showResult(Math.round(num));
+            } else {
+                showResult(xhr.responseText);
+            }
+        } else {
+            showResult('Request failed.  Returned status of ' + xhr.status);
+        }
+    };
+    xhr.send();
+});

@@ -16,8 +16,12 @@ The hotelier should be able to embed their widget by simply pasting a snippet li
 Where {{UUID}} is the uuid of the Hotel. To keep this task simple we are not generating other hashes or access keys for using this widget but simply stick to the UUID.
 The response can be cached by clients for up to 1 hour.
 
-# Setup
-- composer install
-- create schema
-- load fixtures
-- use the `symfony serve` or the builtin php server for development
+# Build
+* `docker-compose up -d`
+* `docker exec -it php1 /bin/bash`; run in container
+```
+composer install
+bin/console doctrine:migrations:migrate
+bin/console doctrine:fixtures:load
+```
+* use http://localhost:6123/ as project's base URL

@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block javascripts %}
+    <script type="text/javascript">
+        var showResult = function (result) {
+            document.getElementById('result').innerHTML = result;
+        };
+        document.addEventListener("DOMContentLoaded", function (event) {
+            var dateFrom, dateTo;
+            dateFrom = new Date();
+            dateFrom.setFullYear(dateFrom.getFullYear() - 1, dateFrom.getMonth(), dateFrom.getDate());
+            dateFrom.setHours(0, 0, 0, 0);
+            dateTo = new Date();
+            dateTo.setHours(23, 59, 59, 999);
+            var
+                uuid = encodeURIComponent('a5396f85-4049-4c2a-b596-7af4471ac7b8'),
+                from = encodeURIComponent(dateFrom.toISOString()),
+                to = encodeURIComponent(dateTo.toISOString());
+
+            var xhr = new XMLHttpRequest();
+            //xhr.open('GET', `/api/average?hotelUUID=${uuid}&from=${from}&to=${to}`);
+            xhr.open('GET', `/api/average?hotelId=1&from=${from}&to=${to}`);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    var num = Number.parseFloat(xhr.responseText);
+                    if (Number.isFinite(num)) {
+                        showResult(Math.round(num));
+                    } else {
+                        showResult(xhr.responseText);
+                    }
+                } else {
+                    showResult('Request failed.  Returned status of ' + xhr.status);
+                }
+            };
+            xhr.send();
+        });
+    </script>
+{% endblock %}
+
+{% block body %}
+    <div>Average reviews score for hotel 1 is: <span id="result"></span></div>
+{% endblock %}
+
+{% block title %}
+    Widget Test!
+{% endblock %}

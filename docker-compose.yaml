@@ -23,6 +23,7 @@ services:
     links:
       - mysql1
     working_dir: /var/www
+    user: $PHP_UID:$PHP_GID # $(id -u):$(id -g)
     volumes:
       - .:/var/www
     depends_on:

@@ -1,7 +1,7 @@
 FROM php:fpm-alpine
 
 RUN apk update \
-    && apk add --no-cache git mysql-client postgresql-dev curl openssh-client icu libpng libjpeg-turbo libzip-dev \
+    && apk add --no-cache git mysql-client postgresql-dev curl openssh-client icu libpng libjpeg-turbo libzip-dev bash \
     && apk add --no-cache --virtual build-dependencies icu-dev libxml2-dev freetype-dev libpng-dev libjpeg-turbo-dev g++ make autoconf \
     && docker-php-source extract \
     && apk add --no-cache --virtual .phpize-deps-configure $PHPIZE_DEPS \
